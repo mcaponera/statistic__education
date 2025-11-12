@@ -12,7 +12,6 @@ Para isso, serão utilizados conceitos fundamentais da estatística descritiva, 
 Os dados históricos de preços das ações do Banco do Brasil (BBAS3.SA) e do índice IBOVESPA (BVSP), foram obtidos através da biblioteca [yfinance](https://pypi.org/project/yfinance/) do Python, que fornece acesso aos dados do Yahoo Finance. O período selecionado foi de janeiro de 2004 a dezembro de 2004, abrangendo 20 anos de dados trimestrais. Foi escolhida esta fonte, por ser amplamente utilizada pela comunidade financeira e por sua confiabilidade, frequência de atualização dos dados e manutenção do código da biblioteca.
 
 Os dados de lucro líquido trimestral do Banco do Brasil foram coletados manualmente a partir dos relatórios financeiros trimestrais publicados pela instituição. Estes documentos estão disponíveis no site de relações com investidores do Banco do Brasil e representam informações auditadas e oficialmente divulgadas ao mercado.
-- Classificação dos governos: baseada em mandatos presidenciais oficiais
 
 #### Ferramentas e Softwares Utilizados
 Para a coleta, processamento e análise dos dados, foram utilizadas as seguintes ferramentas: Python 3.12 com as bibliotecas pandas, para manipulação, yfinance, usado para a coleta dos dados financeiros, streamlit, para visualização interativa e plotly, para os gráficos.
