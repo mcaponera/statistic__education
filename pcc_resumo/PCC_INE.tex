@@ -64,10 +64,11 @@
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
 \titulo{Análise Estatística do Desempenho da Ação do Banco do Brasil (BRAS3) no período de 2004 a 2024}
-\tituloestrangeiro{Statistical Analysis of the Performance of Banco do Brasil's Stock (BBAS3) from 2004 to 2024}
+\tituloestrangeiro{***}
 \autor{Gabrieli Soares\and{Leonardo Monteiro}\and{Marina Caponera Silva}}
+\instituicao{Universidade Federal de Santa Catarina}
 \local{Brasil}
-\data{novembro,2025}
+\data{Novembro, 2025}
 % ---
 
 
@@ -203,26 +204,51 @@ Essas variáveis, duas quantitativas que explicitam preços, uma quantitativa qu
 proporciona uma base de investigação interessante para explorar fatores que podem influir no desempenho da mais 
 antiga instituição financeira do país.
 
-% ----------------------------------------------------------
-\section{Análise Exploratória Inicial dos Dados}
-Os dados coletados foram organizados em uma tabela única, totalizando 84 observações trimestrais, referentes ao período de 2004 a 2024. Cada registro contém as seguintes 
-variáveis: índice de identificação, trimestre de referência, nome do ativo, (BBAS3.SA), preço da ação (em reais), lucro líquido trimestral (em bilhão de reais), IBOVESPA (pontos) e período de governo vigente.
-
-Optou-se por tratar os dados como população, uma vez que o conjunto abrange integralmente o 
-período de interesse definido para este estudo, não havendo intenção de inferência para 
-períodos externos a esta janela temporal.
-
 A Tabela~\ref{tabela-csv-completo} apresenta a base de dados completa utilizada nesta analise.
 
 \input{tabela-csv-completo}
 
 % ----------------------------------------------------------
+\section{Análise Exploratória dos Dados}
+Os dados coletados foram organizados em uma tabela única, totalizando 84 observações trimestrais, referentes ao período de 2004 a 2024. 
+Cada registro contém as seguintes variáveis: índice de identificação, trimestre de referência, nome do ativo, (BBAS3.SA), preço da ação 
+(em reais), lucro líquido trimestral (em bilhão de reais), IBOVESPA (pontos) e período de governo vigente.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{freqGov.png}
+	\title{Distribuição de Frequência Absoluta dos Governos}
+	\caption{Distribuição de Frequência - Período de Governo (2004-2024).}
+	\label{fig:freq_gov}
+\end{figure}
+
+Optou-se por tratar os dados como população, uma vez que o conjunto abrange integralmente o 
+período de interesse definido para este estudo, não havendo intenção de inferência para 
+períodos externos a esta janela temporal.
+
+No período de 20 anos, foram três presidentes eleitos e um governo interino. O presidente Lula, predominou no período, foram 36 trimestres, que compreendem, seu primeiro mandato (2003-2006), sua posterior reeleição (2007-2006) e seu terceiro mandato (2023-2024). A distribuição de frequência dos governos pode ser vista na tabela~\ref{freq_gov} e também no gráfico~\ref{fig:freq_gov}.
+
+\input{freq_gov}
+
+Usando os quartis, analisou-se a distribuição do lucro líquido trimestral, os resultados indicam que 25\% 
+dos trimestres apresentam lucro inferior a 2,35 bilhões de reais, enquanto 75\% dos trimestres tiveram lucro 
+abaixo de R\$ 4,16 bilhões, é possível observar um ponto bastante discrepante, no quarto trimestre de 2021 
+o lucro líquido da instituição foi superior a R\$ 10 bilhões, como pode ser observado na figura~\ref{boxplot_lucro}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{boxplotLucro.png}
+    \caption{Distribuição do Lucro Líquido por Quartis - Boxplot'}
+    \label{boxplot_lucro}
+\end{figure}
+
+% ----------------------------------------------------------
 \subsection{Características Gerais das Variáveis}
 
-A análise inicial dos dados permite observar tendências e variações relevantes ao longo da série histórica. A variável \textit{Preço} da ação do Banco do Brasil (BBAS3.SA) apresentou 
-uma trajetória geral de crescimento, com valor mínimo de R\$ 1,22 e máximo de R\$ 25,40, 
-resultando em uma amplitude de R\$ 24,18 ao longo do período. A volatilidade dessa variável, 
-medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) 
+A análise inicial dos dados permite observar tendências e variações relevantes ao longo da série histórica. 
+A variável \textit{Preço} da ação do Banco do Brasil (BBAS3.SA) apresentou uma trajetória geral de crescimento, 
+com valor mínimo de R\$ 1,22 e máximo de R\$ 25,40, resultando em uma amplitude de R\$ 24,18 ao longo do período. 
+A volatilidade dessa variável, medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) 
 foi de 37,7723, refletindo flutuações consideráveis no preço da ação ao longo dos 20 anos analisados.
 
 A tabela~\ref{variancia} sintetiza as medidas de dispersão para as três variáveis quantitativas analisadas: Preço, Lucro e IBOVESPA. 
@@ -304,16 +330,16 @@ Observa-se uma trajetória ascendente consistente no lucro médio anual, particu
 entre 0,7 e 2,5 bilhões de reais. O período de 2009 a 2015 mostra crescimento gradual, com valores 
 oscilando entre 2,5 e 4,5 bilhões de reais.
 
-Um ponto de inflexão notável ocorre em 2016, quando o lucro médio anual apresenta queda para 
-aproximadamente 1,6 bilhões de reais, o menor valor desde 2006. Este resultado pode estar 
-relacionado ao contexto econômico e político do período.
-
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.9\textwidth]{lucroMedioAno.png}
 	\caption{Histograma do lucro médio anual do Banco do Brasil (2004-2024).}
 	\label{fig:lucro-medio-anual}
 \end{figure}
+
+Um ponto de inflexão notável ocorre em 2016, quando o lucro médio anual apresenta queda para 
+aproximadamente 1,6 bilhões de reais, o menor valor desde 2006. Este resultado pode estar 
+relacionado ao contexto econômico e político do período.
 
 % ----------------------------------------------------------
 % Finaliza a parte no bookmark do PDF
@@ -328,7 +354,7 @@ relacionado ao contexto econômico e político do período.
 \section{Conclusão}
 % ---
 
-pensando
+to pensando ainda :(
 
 % ----------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS

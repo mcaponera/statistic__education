@@ -6,11 +6,17 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import marimo as mo
+    return (mo,)
+
+
+@app.cell
+def _():
     import pandas as pd
     import plotly.express as px
     from plotly.subplots import make_subplots
     import plotly.graph_objects as go
-    return go, make_subplots, pd, px
+    return pd, px
 
 
 @app.cell
@@ -22,13 +28,13 @@ def _(pd):
 
 @app.cell
 def _(df):
-    df.to_latex("tabela.tex")
+    df.to_latex("brutos/tabela.tex")
     return
 
 
 @app.cell
-def _(df):
-    colunas = df[["Preço", "Lucro", "IBOVESPA"]]
+def _():
+    colunas = ["Preço", "Lucro", "IBOVESPA"]
     return (colunas,)
 
 
@@ -38,63 +44,27 @@ def _(colunas, df):
         media = df[coluna].mean()
         mediana = df[coluna].median()
         moda = df[coluna].mode()
-        print(f"{coluna}: média {media:.4f}, mediana {mediana:.4f} \ne moda {moda}")
+        print(f"{coluna}: média {media:.4f}, mediana {mediana:.4f} e moda\n{moda}")
         print("####")
     return
 
 
-@app.cell
-def _(colunas, df):
+app._unparsable_cell(
+    r"""
     for i in colunas:
         variancia = df[i].var()
         desvio_padra = df[i].std()
         minimo = df[i].min()
         maximo = df[i].max()
-        print(f"{i}: mínimo {minimo}, máximo {maximo} variância {variancia:.4f} e desvio padrão {desvio_padra:.4f}\n####")
-    return
-
-
-@app.cell
-def _(df, go, make_subplots):
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
-
-    fig.add_trace(
-        go.Scatter(x=df['Trimestre'], y=df["IBOVESPA"], name='IBOVESPA'),
-        secondary_y=False, # Define como Eixo Y Primário (à esquerda)
-    )
-
-    fig.add_trace(
-        go.Scatter(x=df['Trimestre'], y=df["Lucro"], name="Lucro"),
-        secondary_y=True, # Define como Eixo Y Secundário (à direita)
-    )
-
-    fig.update_layout(
-        title_text='IBOVESPA (Pontos) vs. Lucro (Bilhões)',
-        xaxis_title='Trimestres'
-    )
-
-    fig.update_yaxes(title_text="<b>em Pontos</b>", secondary_y=False)
-    fig.update_yaxes(title_text="<b>em Bilhões de Reais</b>", secondary_y=True)
-
-    fig.show()
-    return
+        print(f\"{i}: mínimo {minimo}, máximo {maximo} variância {variancia:.4f} e desvio padrão {desvio_padra:.4f})
+    """,
+    name="_"
+)
 
 
 @app.cell
 def _(df):
     df.columns
-    return
-
-
-@app.cell
-def _(df, px):
-    boxplot = px.box(
-        df[["Período Governo", "IBOVESPA"]],
-        y = df["IBOVESPA"],
-        title= "Distribuição dos Preços nos Períodos de Governo"
-    )
-
-    boxplot.show()
     return
 
 
@@ -112,6 +82,62 @@ def _(df, px):
         labels={'x': 'Ano', 'y': 'Lucro Médio (Bilhões R$)'}
     )
     histo_anual.show()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Análise exploratória
+    """)
+    return
+
+
+@app.cell
+def _(df, pd, px):
+    freq_abs = df["Período Governo"].value_counts()
+    freq_rel = df["Período Governo"].value_counts(normalize=True) * 100
+
+    tab_freq = pd.DataFrame({
+        'Governo' : freq_abs.index,
+        'Frequência Relativa': freq_rel.values,
+        'Frequência Absoluta': freq_abs.values.round(2)
+    })
+
+    fig_barras = px.bar(
+        tab_freq,
+        x='Governo',
+        y='Frequência Absoluta',
+        text='Frequência Absoluta',
+        title='Distribuição de Frequência - Período de Governo',
+        color='Governo'
+    )
+    tab_freq.to_latex('brutos/freq_gov.tex')
+    fig_barras.show()
+    return (tab_freq,)
+
+
+@app.cell
+def _(tab_freq):
+    tab_freq
+    return
+
+
+@app.cell
+def _(df, px):
+    variaveis = ['Preço', 'Lucro', 'IBOVESPA']
+    quartis_df = df[variaveis].quantile([0.25, 0.5, 0.75])
+
+    fig_lucro_box = px.box(
+        df, 
+        y='Lucro',
+        title='Distribuição do Lucro Líquido - Boxplot',
+        #notched=True,
+        hover_data=['Trimestre'],
+        points='all'
+    )
+    fig_lucro_box.update_layout(yaxis_title='Lucro (Bilhões R$)')
+    fig_lucro_box.show()
     return
 
 

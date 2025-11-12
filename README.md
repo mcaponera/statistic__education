@@ -22,6 +22,7 @@ A variável **Preço da ação** apresenta o valor de mercado no fechamento de c
 Para contextualizar o desempenho do ativo em relação ao mercado, incluiu-se o **IBOVESPA**, principal índice de referência do mercado acionário. Esta variável permite observar se os movimentos do ativo estão ou não alinhados com tendências gerais do mercado ou apresentam comportamento distinto.
 Por fim, a variável **Período de Governo** introduz uma dimensão qualitativa importante, categorizando cada trimestre conforme o governo federal vigente. Permitindo examinar se contextos políticos podem influenciar o desempenho do setor financeiro, em especial o Banco do Brasil, instituição financeira de de economia mista, com controle estatal.
 Essas variáveis, duas quantitativas que explicitam preços, uma quantitativa que expressa um score e uma qualitativa, proporciona uma base de investigação interessante para explorar fatores que podem influir no desempenho da mais antiga instituição financeira do país.
+# Para rodar o notebook com explorações iniciais:
 
-
+`marimo edit ine_pcc.py`
 ‌
