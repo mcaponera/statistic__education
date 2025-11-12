@@ -1,0 +1,374 @@
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+	twoside,			% para impressão em verso e anverso. Oposto a oneside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	french,				% idioma adicional para hifenização
+	spanish,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+	]{abntex2}
+
+% ---
+% Pacotes básicos 
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern			
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{lastpage}			% Usado pela Ficha catalográfica
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+% ---
+		
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
+% ---
+\usepackage{lipsum}				% para geração de dummy text
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+
+% --- 
+% CONFIGURAÇÕES DE PACOTES
+% --- 
+
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+%\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+%\renewcommand{\backref}{}
+% Define os textos da citação
+%\renewcommand*{\backrefalt}[4]{
+%	\ifcase #1 %
+%		Nenhuma citação no texto.%
+%	\or
+%		Citado na página #2.%
+%	\else
+%		Citado #1 vezes nas páginas #2.%
+%	\fi}%
+%
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{Análise Estatística do Desempenho da Ação do Banco do Brasil (BRAS3) no período de 2004 a 2024}
+\autor{Gabrieli Soares\and{Leonardo Monteiro}\and{Marina Caponera Silva}}
+\local{Brasil}
+\data{novembro,2025}
+\instituicao{%
+  Universidade Federal de Santa Catarina -- UFSC
+  \par
+  Departamento de Matemática
+  }
+% ---
+
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+        	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	    linkcolor=blue,          	% color of internal links
+    	    citecolor=blue,        		% color of links to bibliography
+    	    filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+% ---
+% inserir lista de ilustrações
+% ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+% ---
+% inserir o sumario
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+\chapter*[Introdução]{Introdução}
+\addcontentsline{toc}{chapter}{Introdução}
+% ----------------------------------------------------------
+
+O mercado de capitais é um termômetro sensível às condições sociais e econômicas de um país. 
+As cotações, lucros e índices do mercado, como o IBOVESPA, refletem tanto o desempenho corporativo, 
+como também a confiança dos investidores.
+
+Este trabalho tem como foco a análise estatística descritiva da ação do Banco do Brasil, a mais antiga 
+instituição financeira do país, ao longo de um período significativo de 20 anos (2004 a 2024), abrangendo 
+os governos Lula, Dilma, Temer e Bolsonaro, e o retorno ao governo Lula ao final da série histórica.
+
+A motivação para este estudo reside na possibilidade de investigar, por meio de ferramentas estatísticas, 
+como variáveis-chave — Preço da ação, Lucro por ação e o índice IBOVESPA — se comportaram e se relacionaram 
+em diferentes contextos políticos e econômicos. Questões como "O lucro da empresa apresentou tendência de 
+crescimento constante?" ou "Existe uma correlação visível entre o preço da ação e o desempenho do IBOVESPA?" 
+ou ainda "É possível identificar padrões distintos de comportamento dessas variáveis entre os diferentes 
+governos?" guiam esta investigação.
+
+Para isso, serão utilizados conceitos fundamentais da estatística descritiva, como medidas de tendência central e 
+dispersão, análise de frequência, construção de gráficos e estudo de correlação. O objetivo principal é realizar uma 
+exploração deste conjunto de dados, apresentando os resultados de forma clara e discutindo possíveis interpretações 
+para os padrões observados.
+
+% ----------------------------------------------------------
+\part{Metodologia}
+\chapter{Metodologia}
+
+\section{Fonte dos Dados}
+Os dados históricos de preços das ações do Banco do Brasil (BBAS3.SA) e do índice IBOVESPA (BVSP), foram obtidos através 
+da biblioteca yfinance\citeonline{aroussi} do Python, que fornece acesso aos dados do Yahoo Finance. 
+O período selecionado foi de janeiro de 2004 a dezembro de 2004, abrangendo 20 anos de dados trimestrais. Foi escolhida 
+esta fonte, por ser amplamente utilizada pela comunidade financeira e por sua confiabilidade, frequência de atualização 
+dos dados e manutenção do código da biblioteca.
+
+Os dados de lucro líquido trimestral do Banco do Brasil foram coletados manualmente a partir dos relatórios 
+financeiros trimestrais publicados pela instituição. Estes documentos estão disponíveis no site de relações com investidores do 
+Banco do Brasil e representam informações auditadas e oficialmente divulgadas ao mercado.
+% ----------------------------------------------------------
+\section{Ferramentas e Softwares Utilizados}
+Para a coleta, processamento e análise dos dados, foram utilizadas as seguintes ferramentas: Python 3.12 com 
+as bibliotecas pandas, para manipulação, yfinance, usado para a coleta dos dados financeiros, streamlit, 
+para visualização interativa e plotly, para os gráficos.
+% ----------------------------------------------------------
+\section{Variáveis Utilizadas}
+Foram utilizadas quatro variáveis para analisar o desempenho da ação BBAS entre 2004 e 2024. A seleção 
+dessas variáveis buscou capturar tanto aspectos específicos do ativo quanto o ambiente social no qual está inserido.
+
+A variável \textbf{Preço da ação} apresenta o valor de mercado no fechamento de cada trimestre, servindo de indicador direto 
+da percepção no mercado. Paralelamente, o \textbf{Lucro Líquido Trimestral} reflete o desempenho operacional e a 
+saúde financeira da instituição.
+
+Para contextualizar o desempenho do ativo em relação ao mercado, incluiu-se o \textbf{IBOVESPA}, principal índice de 
+referência do mercado acionário. Esta variável permite observar se os movimentos do ativo estão ou não alinhados 
+com tendências gerais do mercado ou apresentam comportamento distinto.
+
+Por fim, a variável \textbf{Período de Governo} introduz uma dimensão qualitativa importante, categorizando cada trimestre 
+conforme o governo federal vigente. Permitindo examinar se contextos políticos podem influenciar o desempenho do setor 
+financeiro, em especial o Banco do Brasil, instituição financeira de de economia mista, com controle estatal.
+
+Essas variáveis, duas quantitativas que explicitam preços, uma quantitativa que expressa um score e uma qualitativa, 
+proporciona uma base de investigação interessante para explorar fatores que podem influir no desempenho da mais 
+antiga instituição financeira do país.
+
+% ----------------------------------------------------------
+\part{Análise Exploratória}
+\chapter{Análise Exploratória Inicial dos Dados}
+Os dados coletados foram organizados em uma tabela única, totalizando 84 observações trimestrais, referentes ao período de 2004 a 2024. Cada registro contém as seguintes 
+variáveis: índice de identificação, trimestre de referência, nome do ativo, (BBAS3.SA), preço da ação (em reais), lucro líquido trimestral (em bilhão de reais), IBOVESPA (pontos) e período de governo vigente.
+
+Optou-se por tratar os dados como população, uma vez que o conjunto abrange integralmente o 
+período de interesse definido para este estudo, não havendo intenção de inferência para 
+períodos externos a esta janela temporal.
+
+A Tabela~\ref{tabela-csv-completo} apresenta a base de dados completa utilizada nesta analise.
+
+\input{tabela-csv-completo}
+
+% ----------------------------------------------------------
+\section{Características Gerais das Variáveis}
+
+A análise inicial dos dados permite observar tendências e variações relevantes ao longo da série histórica. A variável \textit{Preço} da ação do Banco do Brasil (BBAS3.SA) apresentou 
+uma trajetória geral de crescimento, com valor mínimo de R\$ 1,22 e máximo de R\$ 25,40, 
+resultando em uma amplitude de R\$ 24,18 ao longo do período. A volatilidade dessa variável, 
+medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) 
+foi de 37,7723, refletindo flutuações consideráveis no preço da ação ao longo dos 20 anos analisados.
+
+A tabela~\ref{variancia} sintetiza as medidas de dispersão para as três variáveis quantitativas analisadas: Preço, Lucro e IBOVESPA. 
+
+Além das medidas de dispersão, foram calculadas as principais medidas de tendência central, 
+média ($\overline{x}$), mediana ($\tilde{x}$), moda ($M_o$), as quais oferencem uma visão 
+consolidada do comportamento de cada uma das variáveis. Esses resultados são apresentados na 
+tabela~\ref{tendencia-central}.
+
+% ---
+\begin{table}[h]
+\IBGEtab{%
+  \caption{Variância ($\sigma^2$) e desvio padrão ($\sigma$) no período de 2004 a 2014}%
+  \label{variancia}
+}{%
+  \begin{tabular}{l r r}
+  Variável & $\sigma^2$ & $\sigma$  \\
+  \midrule \midrule
+    Preço & 37,7723 & 6,1459 \\
+	Lucro & 5,2904 & 2,3001 \\
+	IBOVESPA & 920158777,6872 & 30334,1190 \\
+  \bottomrule
+\end{tabular}%
+}{%
+  \fonte{Produzido pelos autores.}%
+  }
+\end{table}
+
+% ---
+\begin{table}[h]
+\IBGEtab{%
+  \caption{Medidas de tendência central no período de 2004 a 2014}%
+  \label{tendencia-central}
+}{%
+  \begin{tabular}{l r r r}
+  Variável & $\overline{x}$ & $\tilde{x}$ & $M_o$  \\
+  \midrule \midrule
+    Preço & 8,2031 & 5,6700 & {5,67} \\
+	Lucro & 3,5215 & 2,9100 & {2,91; 7,45} \\
+	IBOVESPA & 69976,6071 & 61243,0000 & --- \\
+  \bottomrule
+\end{tabular}%
+}{%
+  \fonte{Produzido pelos autores.}%
+  }
+\end{table}
+
+% ----------------------------------------------------------
+\part{Resultados}
+% ---
+\chapter{Lucro Líquido Trimestral vs IBOVESPA}
+É possivel visualizar mais rapidamente as variações considerando suas representações gráficas. 
+A Figura~\ref{fig:preco-lucro-ibov} apresenta os gráficos de linha para as variáveis lucro e 
+IBOVESPA ao longo do tempo.
+
+O gráfico utiliza dois eixos verticais: o eixo esquerdo representa os valores do IBOVESPA em pontos 
+(escala de 0 a 140k), enquanto o eixo direito apresenta o Lucro em bilhões de reais (escala de 0 a 10). 
+A linha azul representa a evolução do IBOVESPA e a linha vermelha representa o Lucro Líquido Trimestral.
+
+Observa-se uma tendência geral de crescimento para ambas as variáveis ao longo do período. O IBOVESPA 
+apresenta crescimento mais acentuado a partir de 2016, com destaque para o período entre 2019 e 2021, 
+quando atingiu seus valores máximos próximos a 130 mil pontos. Já o Lucro Líquido Trimestral apresenta 
+maior volatilidade, com quedas acentuadas em 2015-2016 (chegando próximo a zero) e subsequente 
+recuperação, alcançando valores superiores a 9 bilhões de reais nos períodos mais recentes.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{ibovespaVSlucro.png}
+	\caption{Gráficos de linhas comparando lucro líquido trimestral e IBOVESPA ao longo do tempo (2004-2024).}
+	\label{fig:preco-lucro-ibov}
+\end{figure}
+% ---
+
+\section{Lucro Médio Anual}
+A Figura~\ref{fig:lucro-medio-anual} apresenta um histograma que consolida o lucro líquido médio 
+anual do Banco do Brasil ao longo dos 20 anos analisados (2004-2024). Esta visualização permite 
+identificar a evolução da rentabilidade da instituição em uma perspectiva temporal mais ampla.
+
+Observa-se uma trajetória ascendente consistente no lucro médio anual, particularmente a partir de 
+2015. Os primeiros anos da série (2004-2008) apresentam valores mais modestos, com lucros médios 
+entre 0,7 e 2,5 bilhões de reais. O período de 2009 a 2015 mostra crescimento gradual, com valores 
+oscilando entre 2,5 e 4,5 bilhões de reais.
+
+Um ponto de inflexão notável ocorre em 2016, quando o lucro médio anual apresenta queda para 
+aproximadamente 1,6 bilhões de reais, o menor valor desde 2006. Este resultado pode estar 
+relacionado ao contexto econômico e político do período.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{lucroMedioAno.png}
+	\caption{Histograma do lucro médio anual do Banco do Brasil (2004-2024).}
+	\label{fig:lucro-medio-anual}
+\end{figure}
+
+% ----------------------------------------------------------
+% Finaliza a parte no bookmark do PDF
+% para que se inicie o bookmark na raiz
+% e adiciona espaço de parte no Sumário
+% ----------------------------------------------------------
+\phantompart
+
+% ---
+% Conclusão (outro exemplo de capítulo sem numeração e presente no sumário)
+% ---
+\chapter*[Conclusão]{Conclusão}
+\addcontentsline{toc}{chapter}{Conclusão}
+% ---
+
+pensando
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+% ----------------------------------------------------------
+\postextual % Inicia a parte pós-textual (sem numeração)
+% ----------------------------------------------------------
+\citeoption{abnt-full-initials=yes}
+\nocite{aroussi,nield,morettin}
+% ---
+% Referências bibliográficas: Estrutura ABNTEX2 Completa
+% ---
+
+
+% ---
+% Referências bibliográficas: Estrutura ABNTEX2 Completa
+% ---
+
+\bibliography{PCC_INE}
+
+\end{document}
