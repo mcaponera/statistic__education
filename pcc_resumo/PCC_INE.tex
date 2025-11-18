@@ -18,17 +18,36 @@
 % ---
 % Pacotes básicos 
 % ---
-\usepackage{lmodern}			% Usa a fonte Latin Modern			
 \usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
 \usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{helvet}		% fira sans :/			
 \usepackage{lastpage}			% Usado pela Ficha catalográfica
 \usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
 \usepackage{nomencl} 			% Lista de simbolos
 \usepackage{color}				% Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 	 			% para melhorias de justificação
+
+\renewcommand{\familydefault}{\sfdefault}
 % ---
-		
+% Configurar ambiente tabular para usar fonte serifada
+\let\oldtabular\tabular
+\let\endoldtabular\endtabular
+\renewenvironment{tabular}{\rmfamily\oldtabular}{\endoldtabular}
+
+% Configurar tabularx se estiver usando
+\usepackage{tabularx}
+\renewcommand{\tabularxcolumn}[1]{>{\rmfamily}m{#1}}
+
+% Manter legendas de tabelas em serifada
+\usepackage{caption}
+\captionsetup[table]{font=rm, labelfont=bf}
+
+% Manter serifada em ambientes matemáticos nas tabelas
+\usepackage{etoolbox}
+\AtBeginEnvironment{tabular}{\rmfamily}
+\AtBeginEnvironment{tabularx}{\rmfamily}
+\AtBeginEnvironment{longtable}{\rmfamily}
 % ---
 % Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
 % ---
@@ -144,77 +163,51 @@
 
 % ----------------------------------------------------------
 \section{Introdução}
-% ----------------------------------------------------------
-
-O mercado de capitais é um termômetro sensível às condições sociais e econômicas de um país. 
-As cotações, lucros e índices do mercado, como o IBOVESPA, refletem tanto o desempenho corporativo, 
-como também a confiança dos investidores.
+% ---
+O mercado de capitais é um termômetro sensível às condições sociais e econômicas de um país. As cotações, lucros e índices do mercado, como o IBOVESPA, refletem tanto o desempenho corporativo, como também a confiança dos investidores.
 
 Este trabalho tem como foco a análise estatística descritiva da ação do Banco do Brasil, a mais antiga 
 instituição financeira do país, ao longo de um período significativo de 20 anos (2004 a 2024), abrangendo 
 os governos Lula, Dilma, Temer e Bolsonaro, e o retorno ao governo Lula ao final da série histórica.
 
 A motivação para este estudo reside na possibilidade de investigar, por meio de ferramentas estatísticas, 
-como variáveis-chave — Preço da ação, Lucro por ação e o índice IBOVESPA — se comportaram e se relacionaram 
-em diferentes contextos políticos e econômicos. Questões como "O lucro da empresa apresentou tendência de 
-crescimento constante?" ou "Existe uma correlação visível entre o preço da ação e o desempenho do IBOVESPA?" 
-ou ainda "É possível identificar padrões distintos de comportamento dessas variáveis entre os diferentes 
-governos?" guiam esta investigação.
+como variáveis-chave — Preço da ação, Lucro por ação e o índice IBOVESPA — se comportaram e se relacionaram em diferentes contextos políticos e econômicos. Questões como \textit{"O lucro da empresa apresentou tendência de crescimento constante?"} ou \textit{"Existe uma correlação visível entre o preço da ação e o desempenho do IBOVESPA?"} guiam esta investigação.
 
-Para isso, serão utilizados conceitos fundamentais da estatística descritiva, como medidas de tendência central e 
-dispersão, análise de frequência, construção de gráficos e estudo de correlação. O objetivo principal é realizar uma 
-exploração deste conjunto de dados, apresentando os resultados de forma clara e discutindo possíveis interpretações 
-para os padrões observados.
+Para isso, serão utilizados conceitos fundamentais da estatística descritiva, como medidas de tendência central e dispersão, análise de frequência, construção de gráficos e estudo de correlação. O objetivo principal é realizar uma exploração deste conjunto de dados, apresentando os resultados de forma clara e discutindo possíveis interpretações para os padrões observados.
 
-% ----------------------------------------------------------
+% ---
 \section{Metodologia}
 \subsection{Fonte dos Dados}
-Os dados históricos de preços das ações do Banco do Brasil (BBAS3.SA) e do índice IBOVESPA (BVSP), foram obtidos através 
-da biblioteca yfinance do Python, que fornece acesso aos dados do Yahoo Finance. 
-O período selecionado foi de janeiro de 2004 a dezembro de 2004, abrangendo 20 anos de dados trimestrais. Foi escolhida 
-esta fonte, por ser amplamente utilizada pela comunidade financeira e por sua confiabilidade, frequência de atualização 
-dos dados e manutenção do código da biblioteca.
+Os dados históricos de preços das ações do Banco do Brasil (BBAS3.SA) e do índice IBOVESPA (BVSP), foram obtidos através da biblioteca yfinance do Python, que fornece acesso aos dados do Yahoo Finance. 
+O período selecionado foi de março de 2004 a dezembro de 2004, abrangendo 20 anos de dados trimestrais. Foi escolhida esta fonte, por ser amplamente utilizada pela comunidade financeira e por sua confiabilidade, frequência de atualização dos dados e manutenção do código da biblioteca.
 
-Os dados de lucro líquido trimestral do Banco do Brasil foram coletados manualmente a partir dos relatórios 
-financeiros trimestrais publicados pela instituição. Estes documentos estão disponíveis no site de relações com investidores do 
-Banco do Brasil e representam informações auditadas e oficialmente divulgadas ao mercado.
-% ----------------------------------------------------------
+% falta referência:
+Os dados de lucro líquido trimestral do Banco do Brasil foram coletados manualmente a partir dos relatórios financeiros trimestrais publicados pela instituição. Estes documentos estão disponíveis no site de relações com investidores do Banco do Brasil e representam informações auditadas e oficialmente divulgadas ao mercado.
+
+% ---
 \subsection{Ferramentas e Softwares Utilizados}
-Para a coleta, processamento e análise dos dados, foram utilizadas as seguintes ferramentas: Python 3.12 com 
-as bibliotecas pandas, para manipulação, yfinance, usado para a coleta dos dados financeiros, streamlit, 
-para visualização interativa e plotly, para os gráficos.
-% ----------------------------------------------------------
+Para a coleta, processamento e análise dos dados, foram utilizadas as seguintes ferramentas: Python 3.12 com as bibliotecas pandas, para manipulação, yfinance, usado para a coleta dos dados financeiros, streamlit, para visualização interativa e plotly, para os gráficos.
+
+% ---
 \subsection{Variáveis Utilizadas}
-Foram utilizadas quatro variáveis para analisar o desempenho da ação BBAS entre 2004 e 2024. A seleção 
-dessas variáveis buscou capturar tanto aspectos específicos do ativo quanto o ambiente social no qual está inserido.
+Foram utilizadas quatro variáveis para analisar o desempenho da ação BBAS.SA entre 2004 e 2024. A seleção dessas variáveis buscou capturar tanto aspectos específicos do ativo quanto o ambiente social no qual está inserido.
 
-A variável \textbf{Preço da ação} apresenta o valor de mercado no fechamento de cada trimestre, servindo de indicador direto 
-da percepção no mercado. Paralelamente, o \textbf{Lucro Líquido Trimestral} reflete o desempenho operacional e a 
-saúde financeira da instituição.
+A variável \textbf{Preço da ação} apresenta o valor de mercado no fechamento de cada trimestre, servindo de indicador direto da percepção no mercado. Paralelamente, o \textbf{Lucro Líquido Trimestral} reflete o desempenho operacional e a saúde financeira da instituição.
 
-Para contextualizar o desempenho do ativo em relação ao mercado, incluiu-se o \textbf{IBOVESPA}, principal índice de 
-referência do mercado acionário. Esta variável permite observar se os movimentos do ativo estão ou não alinhados 
-com tendências gerais do mercado ou apresentam comportamento distinto.
+Para contextualizar o desempenho do ativo em relação ao mercado, incluiu-se o \textbf{IBOVESPA}, principal índice de  referência do mercado acionário. Esta variável permite observar se os movimentos do ativo estão ou não alinhados com tendências gerais do mercado, ou apresentam comportamento distinto.
 
-Por fim, a variável \textbf{Período de Governo} introduz uma dimensão qualitativa importante, categorizando cada trimestre 
-conforme o governo federal vigente. Permitindo examinar se contextos políticos podem influenciar o desempenho do setor 
-financeiro, em especial o Banco do Brasil, instituição financeira de de economia mista, com controle estatal.
+Por fim, a variável \textbf{Período de Governo} introduz uma dimensão qualitativa importante, categorizando cada trimestre conforme o governo federal vigente. Permitindo examinar se contextos políticos podem influenciar o desempenho do setor financeiro, em especial o Banco do Brasil, instituição financeira de economia mista, com controle estatal.
 
-Essas variáveis, duas quantitativas que explicitam preços, uma quantitativa que expressa um score e uma qualitativa, 
-proporciona uma base de investigação interessante para explorar fatores que podem influir no desempenho da mais 
-antiga instituição financeira do país.
+Essas variáveis, duas quantitativas que explicitam preços, uma quantitativa que expressa um score e uma qualitativa, proporciona uma base de investigação interessante para explorar fatores que podem influir no desempenho da mais antiga instituição financeira do país.
 
-A Tabela~\ref{tabela-csv-completo} apresenta a base de dados completa utilizada nesta analise.
+O Anexo~\ref{tabela-completa} apresenta a base de dados completa utilizada nesta analise.
 
-\input{tabela-csv-completo}
-
-% ----------------------------------------------------------
+% ---
 \section{Análise Exploratória dos Dados}
 Os dados coletados foram organizados em uma tabela única, totalizando 84 observações trimestrais, referentes ao período de 2004 a 2024. 
-Cada registro contém as seguintes variáveis: índice de identificação, trimestre de referência, nome do ativo, (BBAS3.SA), preço da ação 
-(em reais), lucro líquido trimestral (em bilhão de reais), IBOVESPA (pontos) e período de governo vigente.
+Cada registro contém as seguintes variáveis: índice de identificação, trimestre de referência, nome do ativo, (BBAS3.SA), preço da ação (em reais), lucro líquido trimestral (em bilhão de reais), IBOVESPA (pontos) e período de governo vigente.
 
-\begin{figure}[h!]
+\begin{figure}
 	\centering
 	\includegraphics[width=0.9\textwidth]{freqGov.png}
 	\title{Distribuição de Frequência Absoluta dos Governos}
@@ -222,18 +215,13 @@ Cada registro contém as seguintes variáveis: índice de identificação, trime
 	\label{fig:freq_gov}
 \end{figure}
 
-Optou-se por tratar os dados como população, uma vez que o conjunto abrange integralmente o 
-período de interesse definido para este estudo, não havendo intenção de inferência para 
-períodos externos a esta janela temporal.
+Optou-se por tratar os dados como população, uma vez que o conjunto abrange integralmente o período de interesse definido para este estudo, não havendo intenção de inferência para períodos externos a esta janela temporal.
 
-No período de 20 anos, foram três presidentes eleitos e um governo interino. O presidente Lula, predominou no período, foram 36 trimestres, que compreendem, seu primeiro mandato (2003-2006), sua posterior reeleição (2007-2006) e seu terceiro mandato (2023-2024). A distribuição de frequência dos governos pode ser vista na tabela~\ref{freq_gov} e também no gráfico~\ref{fig:freq_gov}.
+No decorrer dos 83 trimestres, foram três presidentes eleitos e um governo interino. O presidente Lula, predominou no período, foram 36 trimestres, que compreendem, seu primeiro mandato (2003-2006), sua posterior reeleição (2007-2006) e seu terceiro mandato (2023-2024). A distribuição de frequência dos governos pode ser vista na Tabela~\ref{freq_gov} e também no Figura~\ref{fig:freq_gov}.
 
 \input{freq_gov}
 
-Usando os quartis, analisou-se a distribuição do lucro líquido trimestral, os resultados indicam que 25\% 
-dos trimestres apresentam lucro inferior a 2,35 bilhões de reais, enquanto 75\% dos trimestres tiveram lucro 
-abaixo de R\$ 4,16 bilhões, é possível observar um ponto bastante discrepante, no quarto trimestre de 2021 
-o lucro líquido da instituição foi superior a R\$ 10 bilhões, como pode ser observado na figura~\ref{boxplot_lucro}.
+Usando os quartis, analisou-se a distribuição do lucro líquido trimestral, os resultados indicam que 25\% dos trimestres apresentam lucro inferior a 2,35 bilhões de reais, enquanto 75\% dos trimestres tiveram lucro abaixo de R\$ 4,16 bilhões, é possível observar um ponto bastante discrepante, no quarto trimestre de 2021 onde o lucro líquido da instituição foi superior a R\$ 10 bilhões (Figura~\ref{boxplot_lucro}).
 
 \begin{figure}[h]
     \centering
@@ -244,20 +232,12 @@ o lucro líquido da instituição foi superior a R\$ 10 bilhões, como pode ser 
 
 % ----------------------------------------------------------
 \subsection{Características Gerais das Variáveis}
-
 A análise inicial dos dados permite observar tendências e variações relevantes ao longo da série histórica. 
-A variável \textit{Preço} da ação do Banco do Brasil (BBAS3.SA) apresentou uma trajetória geral de crescimento, 
-com valor mínimo de R\$ 1,22 e máximo de R\$ 25,40, resultando em uma amplitude de R\$ 24,18 ao longo do período. 
-A volatilidade dessa variável, medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) 
-foi de 37,7723, refletindo flutuações consideráveis no preço da ação ao longo dos 20 anos analisados.
+A variável \textit{Preço} da ação do Banco do Brasil (BBAS3.SA) apresentou uma trajetória geral de crescimento, com valor mínimo de R\$ 1,22 e máximo de R\$ 25,40, resultando em uma amplitude de R\$ 24,18 ao longo do período. 
+A volatilidade dessa variável, medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) foi de 37,7723, refletindo flutuações consideráveis no preço da ação ao longo dos 20 anos 
+analisados.
 
-A tabela~\ref{variancia} sintetiza as medidas de dispersão para as três variáveis quantitativas analisadas: Preço, Lucro e IBOVESPA. 
-
-Além das medidas de dispersão, foram calculadas as principais medidas de tendência central, 
-média ($\overline{x}$), mediana ($\tilde{x}$), moda ($M_o$), as quais oferencem uma visão 
-consolidada do comportamento de cada uma das variáveis. Esses resultados são apresentados na 
-tabela~\ref{tendencia-central}.
-
+A Tabela~\ref{variancia} sintetiza as medidas de dispersão para as três variáveis quantitativas analisadas: Preço, Lucro e IBOVESPA. 
 % ---
 \begin{table}[h]
 \IBGEtab{%
@@ -276,6 +256,9 @@ tabela~\ref{tendencia-central}.
   \fonte{Produzido pelos autores.}%
   }
 \end{table}
+% ---
+
+Além das medidas de dispersão, foram calculadas as principais medidas de tendência central, média ($\overline{x}$), mediana ($\tilde{x}$), moda ($M_o$), as quais oferecem uma visão consolidada do comportamento de cada uma das variáveis. Esses resultados são apresentados na Tabela~\ref{tendencia-central}.
 
 % ---
 \begin{table}[h]
@@ -298,21 +281,13 @@ tabela~\ref{tendencia-central}.
 
 % ---
 \subsection{Lucro Líquido Trimestral vs IBOVESPA}
-É possivel visualizar mais rapidamente as variações considerando suas representações gráficas. 
-A Figura~\ref{fig:preco-lucro-ibov} apresenta os gráficos de linha para as variáveis lucro e 
-IBOVESPA ao longo do tempo.
+É possível visualizar mais rapidamente as variações considerando suas representações gráficas. 
+A Figura~\ref{fig:preco-lucro-ibov} apresenta o gráfico de linhas com eixo duplo apresenta a evolução temporal comparativa entre o índice IBOVESPA (linha vermelha, eixo direito, escala de 0 a 140 mil pontos) e o Lucro Líquido trimestral (linha azul, eixo esquerdo, escala de 0 R\$10 Bi)
 
-O gráfico utiliza dois eixos verticais: o eixo esquerdo representa os valores do IBOVESPA em pontos 
-(escala de 0 a 140k), enquanto o eixo direito apresenta o Lucro em bilhões de reais (escala de 0 a 10). 
-A linha azul representa a evolução do IBOVESPA e a linha vermelha representa o Lucro Líquido Trimestral.
+Observa-se uma tendência geral de crescimento para ambas as variáveis ao longo do período. O IBOVESPA apresenta crescimento mais acentuado a partir de 2016, com destaque para o período entre 2019 e 2021, quando atingiu seus valores máximos próximos a 130 mil pontos. Já o Lucro Líquido Trimestral apresenta maior volatilidade, com quedas acentuadas em 2015-2016 (chegando próximo a zero) e subsequente recuperação, alcançando valores superiores a 9 bilhões de reais nos períodos mais recentes.
+Um ponto de inflexão notável ocorre em 2016, quando o lucro trimestral apresenta o menor valor registrado na série. Este desempenho pode estar relacionado ao contexto econômico e político do período.
 
-Observa-se uma tendência geral de crescimento para ambas as variáveis ao longo do período. O IBOVESPA 
-apresenta crescimento mais acentuado a partir de 2016, com destaque para o período entre 2019 e 2021, 
-quando atingiu seus valores máximos próximos a 130 mil pontos. Já o Lucro Líquido Trimestral apresenta 
-maior volatilidade, com quedas acentuadas em 2015-2016 (chegando próximo a zero) e subsequente 
-recuperação, alcançando valores superiores a 9 bilhões de reais nos períodos mais recentes.
-
-\begin{figure}[h!]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\textwidth]{ibovespaVSlucro.png}
 	\caption{Gráficos de linhas comparando lucro líquido trimestral e IBOVESPA ao longo do tempo (2004-2024).}
@@ -321,26 +296,56 @@ recuperação, alcançando valores superiores a 9 bilhões de reais nos período
 % ---
 
 \subsection{Lucro Médio Anual}
-A Figura~\ref{fig:lucro-medio-anual} apresenta um histograma que consolida o lucro líquido médio 
-anual do Banco do Brasil ao longo dos 20 anos analisados (2004-2024). Esta visualização permite 
-identificar a evolução da rentabilidade da instituição em uma perspectiva temporal mais ampla.
+A Figura~\ref{fig:lucro-medio-anual} apresenta um histograma que consolida o lucro líquido médio anual do Banco do Brasil ao longo dos 20 anos analisados (2004-2024). Esta visualização permite identificar a evolução da rentabilidade da instituição em uma perspectiva temporal mais ampla.
 
-Observa-se uma trajetória ascendente consistente no lucro médio anual, particularmente a partir de 
-2015. Os primeiros anos da série (2004-2008) apresentam valores mais modestos, com lucros médios 
-entre 0,7 e 2,5 bilhões de reais. O período de 2009 a 2015 mostra crescimento gradual, com valores 
-oscilando entre 2,5 e 4,5 bilhões de reais.
+Observa-se uma trajetória ascendente consistente no lucro médio anual, particularmente a partir de 2015. Os primeiros anos da série (2004-2008) apresentam valores mais modestos, com lucros médios entre 0,7 e 2,5 bilhões de reais. O período de 2009 a 2015 mostra crescimento gradual, com valores oscilando entre 2,5 e 4,5 bilhões de reais.
 
-\begin{figure}[h!]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\textwidth]{lucroMedioAno.png}
 	\caption{Histograma do lucro médio anual do Banco do Brasil (2004-2024).}
 	\label{fig:lucro-medio-anual}
 \end{figure}
 
-Um ponto de inflexão notável ocorre em 2016, quando o lucro médio anual apresenta queda para 
-aproximadamente 1,6 bilhões de reais, o menor valor desde 2006. Este resultado pode estar 
-relacionado ao contexto econômico e político do período.
+\subsection{Correlação}
+A análise de correlação de Pearson revelou diferentes graus de associação linear entre as Tanto a correlação Preço-Lucro ($\rho=0,714$), quanto a correlação Lucro-IBOVESPA ($\rho=0,724$) são consideradas positivas forte, o que indica que aumentos em uma são associadas ao aumento da outra. A correlação Preço-IBOVESPA ($\rho=0,908$) é positiva muito forte, evidenciando que a valorização da ação BBAS3.SA acompanha as tendências do mercado acionário. Essa correlação indica que, em média, um aumento de 1000 pontos no índice IBOVESPA está associado a uma variação de aproximadamente R\$ 0,18 no preço da ação BBAS3.SA, mantidas outras condições. 
 
+O coeficiente de determinação ($R^2$) Preço-IBOVESPA é de 0,824, indicando que 82,4\% da variação do preço da ação pode ser explicada linearmente pelas variações do índice IBOVESPA. Este valor corresponde exatamente ao quadrado do coeficiente correlação de Pearson ($\rho^2=0,802^2$). O diagrama de dispersão (Figura~\ref{fig:preco-ibovespa}) confirma visualmente a correlação quase linear calculada.
+Como sempre, correlação não necessariamente implica causalidade, outros fatores, tanto macro quanto específicos podem afetar diretamente o preço da ação.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{relacaoPrecoIBOVESPA.png}
+	\caption{Relação entre IBOVESPA e Preço da Ação.}
+	\label{fig:preco-ibovespa}
+\end{figure}
+% ---
+
+% ---
+\begin{table}[h]
+\IBGEtab{%
+  \caption{Matriz de correlação de Pearson}%
+  \label{matriz-correlacao}
+}{%
+  \begin{tabular}{l r r r}
+   & Preço & Lucro & IBOVESPA  \\
+  \midrule \midrule
+    Preço & 1,000 & 0,714 & 0,908 \\
+	Lucro & 0,714 & 1,000 & 0,724 \\
+	IBOVESPA & 0,908 & 0,724 & 1,000 \\
+  \bottomrule
+\end{tabular}%
+}{%
+  \fonte{Produzido pelos autores.}%
+  }
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{matrizCorrelacao.png}
+	\caption{Matriz de Correlação de Variáveis.}
+	\label{fig:correlacao}
+\end{figure}
 % ----------------------------------------------------------
 % Finaliza a parte no bookmark do PDF
 % para que se inicie o bookmark na raiz
@@ -353,8 +358,9 @@ relacionado ao contexto econômico e político do período.
 % ---
 \section{Conclusão}
 % ---
+Os resultados revelaram que os preços da ação apresentou trajetória consistente de valorização ao longo do período analisado, saindo de patamares inferiores a R\$ 2,00 em 2004 e atingindo valores superiores a R\$ 25,00 em 2024. A correlação muito forte entre preço e índices, demonstrando que 82,4\% da variação do preço da BBAS3.SA pode ser explicada linearmente pelo movimento do mercado. Esta forte associação confirma a sensibilidade do ativo às condições macroeconômicas gerais.
 
-to pensando ainda :(
+Por fim, o trabalho demonstrou a aplicabilidade dos conceitos estatísticos básicos - medidas de tendência central, dispersão, análise de correlação e representações gráficas - na compreensão de fenômenos econômicos complexos, atendendo ao objetivo de explorar o conjunto de dados e apresentar interpretações claras para os padrões observados.
 
 % ----------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
@@ -369,5 +375,16 @@ to pensando ainda :(
 % ---
 
 \bibliography{PCC_INE}
+\newpage
+% ---
+% Anexos
+% ---
+\begin{anexosenv}
+\chapter{Dados da Ação do Banco do Brasil (BBAS3) de 2004 a 2014}
+\label{tabela-completa}
+
+\input{tabela-csv-completo}
+
+\end{anexosenv}
 
 \end{document}
