@@ -28,6 +28,12 @@ def _(pd):
 
 @app.cell
 def _(df):
+    df.shape
+    return
+
+
+@app.cell
+def _(df):
     df.to_latex("brutos/tabela.tex")
     return
 
@@ -117,7 +123,7 @@ def _(df, pd, px):
     tab_freq = pd.DataFrame({
         'Governo' : freq_abs.index,
         'Frequência Relativa': freq_rel.values,
-        'Frequência Absoluta': freq_abs.values.round(2)
+        'Frequência Absoluta': freq_abs.values
     })
 
     fig_barras = px.bar(
@@ -266,21 +272,20 @@ def _(df):
 
 @app.cell
 def _(df):
+    df[['IBOVESPA', 'Preço', 'Lucro']].corr()
+    return
 
-    import statsmodels.api as sm
 
-    # Adicionar constante para o intercepto
-    X_sm = sm.add_constant(df['IBOVESPA'])
-
-    # Ajustar modelo
-    modelo_sm = sm.OLS(df['Preço'], X_sm).fit()
-
-    print(modelo_sm.summary())
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Modelo de Regressão
+    """)
     return
 
 
 @app.cell
-def _(df, fig3, px):
+def _(df, px):
     correlacaoI = px.scatter(
         df, 
         x='IBOVESPA', 
@@ -290,7 +295,7 @@ def _(df, fig3, px):
         trendline_color_override="red",
         labels={'IBOVESPA': 'IBOVESPA (pontos)', 'Lucro': 'Lucro Líquido (Bilhões R$)'}
     )
-    fig3.show()
+    correlacaoI.show()
     return
 
 
@@ -305,6 +310,19 @@ def _(correlacoes, px):
     )
     fig_corr.update_layout(width=500, height=500)
     fig_corr.show()
+    return
+
+
+@app.cell
+def _(df):
+
+    import statsmodels.api as sm
+
+    X_sm = sm.add_constant(df[['IBOVESPA', 'Preço']])
+
+    modelo_sm = sm.OLS(df['Lucro'], X_sm).fit()
+
+    print(modelo_sm.summary())
     return
 
 

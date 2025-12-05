@@ -27,6 +27,7 @@
 \usepackage{color}				% Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 	 			% para melhorias de justificação
+\usepackage{float}
 
 \renewcommand{\familydefault}{\sfdefault}
 % ---
@@ -217,16 +218,16 @@ Cada registro contém as seguintes variáveis: índice de identificação, trime
 
 Optou-se por tratar os dados como população, uma vez que o conjunto abrange integralmente o período de interesse definido para este estudo, não havendo intenção de inferência para períodos externos a esta janela temporal.
 
-No decorrer dos 83 trimestres, foram três presidentes eleitos e um governo interino. O presidente Lula, predominou no período, foram 36 trimestres, que compreendem, seu primeiro mandato (2003-2006), sua posterior reeleição (2007-2006) e seu terceiro mandato (2023-2024). A distribuição de frequência dos governos pode ser vista na Tabela~\ref{freq_gov} e também no Figura~\ref{fig:freq_gov}.
+No decorrer dos 84 trimestres, foram três presidentes eleitos e um governo interino. O presidente Lula, predominou no período, foram 36 trimestres, que compreendem, seu primeiro mandato (2003-2006), sua posterior reeleição (2007-2006) e seu terceiro mandato (2023-2024). A distribuição de frequência dos governos pode ser vista na Tabela~\ref{freq_gov} e também no Figura~\ref{fig:freq_gov}.
 
 \input{freq_gov}
 
 Usando os quartis, analisou-se a distribuição do lucro líquido trimestral, os resultados indicam que 25\% dos trimestres apresentam lucro inferior a 2,35 bilhões de reais, enquanto 75\% dos trimestres tiveram lucro abaixo de R\$ 4,16 bilhões, é possível observar um ponto bastante discrepante, no quarto trimestre de 2021 onde o lucro líquido da instituição foi superior a R\$ 10 bilhões (Figura~\ref{boxplot_lucro}).
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{boxplotLucro.png}
-    \caption{Distribuição do Lucro Líquido por Quartis - Boxplot'}
+    \includegraphics[scale=0.2]{boxplotLucro.png}
+    \caption{Distribuição do Lucro Líquido por Quartis - Boxplot}
     \label{boxplot_lucro}
 \end{figure}
 
@@ -234,44 +235,21 @@ Usando os quartis, analisou-se a distribuição do lucro líquido trimestral, os
 \subsection{Características Gerais das Variáveis}
 A análise inicial dos dados permite observar tendências e variações relevantes ao longo da série histórica. 
 A variável \textit{Preço} da ação do Banco do Brasil (BBAS3.SA) apresentou uma trajetória geral de crescimento, com valor mínimo de R\$ 1,22 e máximo de R\$ 25,40, resultando em uma amplitude de R\$ 24,18 ao longo do período. 
-A volatilidade dessa variável, medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) foi de 37,7723, refletindo flutuações consideráveis no preço da ação ao longo dos 20 anos 
-analisados.
+A volatilidade dessa variável, medida pelo desvio padrão ($\sigma$), foi de 6,1459, enquanto a variância ($\sigma^2$) foi de 37,7723, refletindo flutuações consideráveis no preço da ação ao longo dos 20 anos analisados. Além das medidas de dispersão, foram calculadas as principais medidas de tendência central, média ($\mu$), mediana ($\tilde{X}$), moda ($M_o$), as quais oferecem uma visão consolidada do comportamento de cada uma das variáveis.
 
-A Tabela~\ref{variancia} sintetiza as medidas de dispersão para as três variáveis quantitativas analisadas: Preço, Lucro e IBOVESPA. 
+A Tabela~\ref{tendencia-central} sintetiza as medidas de dispersão para as três variáveis quantitativas analisadas: Preço, Lucro e IBOVESPA. 
 % ---
-\begin{table}[h]
-\IBGEtab{%
-  \caption{Variância ($\sigma^2$) e desvio padrão ($\sigma$) no período de 2004 a 2014}%
-  \label{variancia}
-}{%
-  \begin{tabular}{l r r}
-  Variável & $\sigma^2$ & $\sigma$  \\
-  \midrule \midrule
-    Preço & 37,7723 & 6,1459 \\
-	Lucro & 5,2904 & 2,3001 \\
-	IBOVESPA & 920158777,6872 & 30334,1190 \\
-  \bottomrule
-\end{tabular}%
-}{%
-  \fonte{Produzido pelos autores.}%
-  }
-\end{table}
-% ---
-
-Além das medidas de dispersão, foram calculadas as principais medidas de tendência central, média ($\overline{x}$), mediana ($\tilde{x}$), moda ($M_o$), as quais oferecem uma visão consolidada do comportamento de cada uma das variáveis. Esses resultados são apresentados na Tabela~\ref{tendencia-central}.
-
-% ---
-\begin{table}[h]
+\begin{table}[H]
 \IBGEtab{%
   \caption{Medidas de tendência central no período de 2004 a 2014}%
   \label{tendencia-central}
 }{%
-  \begin{tabular}{l r r r}
-  Variável & $\overline{x}$ & $\tilde{x}$ & $M_o$  \\
+  \begin{tabular}{l r r r r r}
+  Variável & $\sigma^2$ & $\sigma$ & $\mu$ & $\tilde{X}$ & $M_o$  \\
   \midrule \midrule
-    Preço & 8,2031 & 5,6700 & {5,67} \\
-	Lucro & 3,5215 & 2,9100 & {2,91; 7,45} \\
-	IBOVESPA & 69976,6071 & 61243,0000 & --- \\
+    Preço & 37,7723 & 6,1459 & 8,2031 & 5,6700 & {5,67} \\
+	Lucro & 5,2904 & 2,3001 & 3,5215 & 2,9100 & {2,91; 7,45} \\
+	IBOVESPA & 920158777,6872 & 30334,1190 & 69976,6071 & 61243,0000 & --- \\
   \bottomrule
 \end{tabular}%
 }{%
@@ -346,6 +324,8 @@ Como sempre, correlação não necessariamente implica causalidade, outros fator
 	\caption{Matriz de Correlação de Variáveis.}
 	\label{fig:correlacao}
 \end{figure}
+
+
 % ----------------------------------------------------------
 % Finaliza a parte no bookmark do PDF
 % para que se inicie o bookmark na raiz
